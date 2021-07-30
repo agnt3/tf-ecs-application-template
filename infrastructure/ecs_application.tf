@@ -48,6 +48,7 @@ resource "aws_ecs_service" "default" {
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
   depends_on = [aws_ecs_task_definition.default, aws_lb_target_group.default]
+  health_check_grace_period_seconds  = 30
 
   load_balancer {
     container_name = var.application
