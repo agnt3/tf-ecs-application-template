@@ -2,7 +2,7 @@ const app = require('express')()
 
 app.get('/api', function(req, res) {
     res.set('content-type', 'application/json')
-    res.send('{\'status\': \'UP\', \'version\': \'2.0\'}')
+    res.send('{\'status\': \'UP\', \'version\': \'3.0\'}')
 })
 
 app.get('/health', function(req, res) {
