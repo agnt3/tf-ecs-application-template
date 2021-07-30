@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 
-COMMIT_HASH=$1
-
 deploy() {
   echo "Starting Deployment..."
-  echo "Commit Hash: $COMMIT_HASH"
+  echo "Commit Hash: $GITHUB_SHA"
 
-  export TF_VAR_commit_hash=$COMMIT_HASH
+  __export_commit_hash_to_terraform
   terraform apply -var-file="production.tfvars" -auto-approve
 }
 
 dockerize() {
-  IMAGE_NAME=leonardocordeiro/ecs-example-app:$COMMIT_HASH
+  IMAGE_NAME=leonardocordeiro/ecs-example-app:$GITHUB_SHA
 
   docker build -t $IMAGE_NAME $(dirname $PWD)
   docker push $IMAGE_NAME
 }
 
-case $2 in
-  "deploy")
+__export_commit_hash_to_terraform() {
+  export TF_VAR_commit_hash=$GITHUB_SHA
+}
+
+case $1 in
+  "run")
       deploy;;
   "dockerize")
       dockerize;;

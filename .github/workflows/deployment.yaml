@@ -16,6 +16,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: Dockerize
+      run: |
+        cd infrastructure
+        ./deploy.sh dockerize
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
@@ -24,7 +29,7 @@ jobs:
         cd infrastructure
         terraform init
 
-    - name: "Terraform apply"
+    - name: Terraform apply
       run: |
         cd infrastructure
-        ./deploy.sh ${GITHUB_SHA}
+        ./deploy.sh run
