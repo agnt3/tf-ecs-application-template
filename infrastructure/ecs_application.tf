@@ -45,10 +45,11 @@ resource "aws_ecs_service" "default" {
   cluster                            = local.ecs_cluster
   desired_count                      = 2
   task_definition                    = aws_ecs_task_definition.default.arn
+  health_check_grace_period_seconds  = 30
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
+  wait_for_steady_state              = true
   depends_on = [aws_ecs_task_definition.default, aws_lb_target_group.default]
-  health_check_grace_period_seconds  = 30
 
   load_balancer {
     container_name = var.application

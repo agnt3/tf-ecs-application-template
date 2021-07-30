@@ -1,2 +1,2 @@
 application = "example-app"
-commit_hash = "v5"
+commit_hash = "v6"
