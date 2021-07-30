@@ -5,3 +5,5 @@ deploy() {
   echo "Commit Hash: $TF_VAR_commit_hash"
   terraform apply -var-file="production.tfvars" -auto-approve
 }
+
+deploy $1
