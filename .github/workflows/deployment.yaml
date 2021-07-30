@@ -23,6 +23,4 @@ jobs:
 #        aws-region: us-east-1
 
     - name: "Terraform apply"
-      run: |
-        cd infrastructure
-        ./deploy.sh ${GITHUB_SHA}
+      run: ./infrastructure/deploy.sh ${GITHUB_SHA}
