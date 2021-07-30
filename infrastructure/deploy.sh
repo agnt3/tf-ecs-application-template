@@ -11,23 +11,24 @@ deploy() {
   echo "Starting Deployment..."
   echo "Commit Hash: $GITHUB_SHA"
 
-  __export_commit_hash_to_terraform
-  terraform apply -var-file="production.tfvars" -auto-approve
+  __terraform apply
 }
 
 destroy() {
   echo "Starting Destroy..."
 
-  __export_commit_hash_to_terraform
-  terraform destroy -var-file="production.tfvars" -auto-approve
+  __terraform destroy
 }
 
 __get_image_name() {
   echo "leonardocordeiro/ecs-example-app:$GITHUB_SHA"
 }
 
-__export_commit_hash_to_terraform() {
-  export TF_VAR_commit_hash=$GITHUB_SHA
+__terraform() {
+  TF_VAR_commit_hash=$GITHUB_SHA
+  CMD="terraform $1 -var-file='production.tfvars' -auto-approve"
+
+  eval $CMD
 }
 
 case $1 in
