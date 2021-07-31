@@ -25,7 +25,7 @@ __get_image_name() {
 }
 
 __terraform() {
-  TF_VAR_commit_hash=$GITHUB_SHA
+  export TF_VAR_commit_hash=$GITHUB_SHA
   CMD="terraform $1 -var-file='production.tfvars' -auto-approve"
 
   eval $CMD
