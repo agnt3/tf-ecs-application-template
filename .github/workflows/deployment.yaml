@@ -2,19 +2,11 @@ name: Deployment
 on: [workflow_dispatch]
 
 jobs:
-  deploy:
+  dockerize:
     runs-on: ubuntu-18.04
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Setup AWS
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
 
     - name: Setup DockerHub
       uses: docker/login-action@v1
@@ -26,6 +18,19 @@ jobs:
       run: |
         cd infrastructure
         ./deploy.sh dockerize
+
+  run-deployment:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup AWS
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
