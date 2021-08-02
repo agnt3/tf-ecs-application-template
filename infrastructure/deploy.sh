@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+echo "Commit Hash: $GITHUB_SHA"
+export TF_VAR_commit_hash=$GITHUB_SHA
 
 dockerize() {
   IMAGE_NAME=$(__get_image_name)
@@ -9,7 +13,6 @@ dockerize() {
 
 deploy() {
   echo "Starting Deployment..."
-  echo "Commit Hash: $GITHUB_SHA"
 
   __terraform apply
 }
@@ -25,9 +28,7 @@ __get_image_name() {
 }
 
 __terraform() {
-  export TF_VAR_commit_hash=$GITHUB_SHA
   CMD="terraform $1 -var-file='production.tfvars' -auto-approve"
-
   eval $CMD
 }
 
